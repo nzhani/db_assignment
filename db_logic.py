@@ -5,7 +5,7 @@ DB_URL = "postgresql://postgres:Admin@localhost:5432/ass_db"
 engine = create_engine(DB_URL)
 metadata = MetaData()
 
-# Define Tables
+#Defininf tables
 user_table = Table(
     'USER', metadata,
     Column('user_id', Integer, primary_key=True, autoincrement=True),
@@ -68,11 +68,8 @@ appointment_table = Table(
     Column('work_hours', Integer),
     Column('status', String(50))
 )
-
+# functions to   use in app.py
 def q(sql, p=None):
-    """
-    Executes a raw SQL query.
-    """
     try:
         with engine.connect() as c:
             r = c.execute(text(sql), p or {})
@@ -83,8 +80,6 @@ def q(sql, p=None):
     except SQLAlchemyError as e:
         print(f"Database error: {e}")
         return None
-
-# Helper functions using SQLAlchemy Core
 
 def get_all(table_obj):
     with engine.connect() as conn:
@@ -100,9 +95,6 @@ def create_record(table_obj, data):
     with engine.connect() as conn:
         result = conn.execute(table_obj.insert().values(**data))
         conn.commit()
-        # Try to return the inserted ID if possible, though not always guaranteed by all drivers without returning
-        # For this assignment, we might just assume success or handle returning explicitly if needed.
-        # Postgres supports RETURNING.
         return result
 
 def update_record(table_obj, id_col, id_val, data):

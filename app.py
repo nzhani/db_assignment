@@ -3,15 +3,18 @@ from db_logic import (
     user_table, caregiver_table, member_table, address_table, job_table, job_application_table, appointment_table,
     get_all, get_by_id, create_record, update_record, delete_record
 )
+from sqlalchemy import create_engine
+DB_URL = "postgresql://postgres:Admin@localhost:5432/ass_db"
+engine = create_engine(DB_URL)
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Needed for flash messages
+app.secret_key = 'supersecretkey'  
 
 @app.route('/')
 def index():
     return render_template('base.html')
 
-# --- USER Routes ---
+
 @app.route('/user')
 def list_users():
     users = get_all(user_table)
@@ -58,7 +61,7 @@ def delete_user(id):
     flash('User deleted successfully!')
     return redirect(url_for('list_users'))
 
-# --- CAREGIVER Routes ---
+# caregiver routes 
 @app.route('/caregiver')
 def list_caregivers():
     caregivers = get_all(caregiver_table)
@@ -98,7 +101,7 @@ def delete_caregiver(id):
     delete_record(caregiver_table, caregiver_table.c.caregiver_user_id, id)
     return redirect(url_for('list_caregivers'))
 
-# --- MEMBER Routes ---
+# member routes
 @app.route('/member')
 def list_members():
     members = get_all(member_table)
@@ -134,7 +137,7 @@ def delete_member(id):
     delete_record(member_table, member_table.c.member_user_id, id)
     return redirect(url_for('list_members'))
 
-# --- ADDRESS Routes ---
+# address routes
 @app.route('/address')
 def list_addresses():
     addresses = get_all(address_table)
@@ -172,7 +175,7 @@ def delete_address(id):
     delete_record(address_table, address_table.c.member_user_id, id)
     return redirect(url_for('list_addresses'))
 
-# --- JOB Routes ---
+# job routes
 @app.route('/job')
 def list_jobs():
     jobs = get_all(job_table)
@@ -212,7 +215,7 @@ def delete_job(id):
     delete_record(job_table, job_table.c.job_id, id)
     return redirect(url_for('list_jobs'))
 
-# --- JOB_APPLICATION Routes ---
+# job app routes
 @app.route('/job_application')
 def list_job_applications():
     apps = get_all(job_application_table)
@@ -232,26 +235,27 @@ def create_job_application():
     jobs = get_all(job_table)
     return render_template('job_application/create.html', caregivers=caregivers, jobs=jobs)
 
-# Note: Job Application has composite PK. For simplicity in this assignment, 
-# we might skip Edit/Delete or implement them with composite ID handling if needed.
-# But the prompt asks for CRUD for "each table".
-# I'll implement a simple delete using query params or a combined slug if needed,
-# but for now let's assume we pass both IDs in the URL or query string.
-# Actually, Flask routes can take multiple args.
 @app.route('/job_application/<int:cid>/<int:jid>/delete', methods=['POST'])
-def delete_job_application(cid, jid):
-    # This requires a custom delete function for composite PK or using the generic one carefully
-    # My generic delete_record only takes one id_col. I'll need to do it manually here or update db_logic.
-    # For speed, I'll just do it manually here using engine.
-    with engine.connect() as conn:
-        conn.execute(job_application_table.delete().where(
+def delete_job_applications(cid, jid):
+    with engine.begin() as conn:
+        # Create the delete statement
+        stmt = job_application_table.delete().where(
             (job_application_table.c.caregiver_user_id == cid) & 
             (job_application_table.c.job_id == jid)
-        ))
-        conn.commit()
+        )
+        
+        result = conn.execute(stmt)
+        print(f"Attempting to delete CID: {cid}, JID: {jid}")
+        print(f"Rows deleted: {result.rowcount}")
+
+        if result.rowcount == 0:
+            flash(f"Error: Could not find application for Candidate {cid} and Job {jid}", "error")
+        else:
+            flash("Application deleted successfully", "success")
+
     return redirect(url_for('list_job_applications'))
 
-# --- APPOINTMENT Routes ---
+# appointment 
 @app.route('/appointment')
 def list_appointments():
     appointments = get_all(appointment_table)
