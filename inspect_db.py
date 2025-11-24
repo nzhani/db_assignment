@@ -19,4 +19,4 @@ def inspect_db():
         print(f"Error inspecting DB: {e}")
 
 if __name__ == "__main__":
-    inspect_db()
+    inspect_db() #fuck nameing commit
