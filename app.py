@@ -3,12 +3,17 @@ from db_logic import (
     user_table, caregiver_table, member_table, address_table, job_table, job_application_table, appointment_table,
     get_all, get_by_id, create_record, update_record, delete_record
 )
-from sqlalchemy import create_engine
-DB_URL = "postgresql://postgres:Admin@localhost:5432/ass_db"
-engine = create_engine(DB_URL)
+from flask import Flask
+from db_logic import engine, metadata
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  
+app.secret_key = 'supersecretkey' 
+
+try:
+    metadata.create_all(engine)
+    print("Tables created successfully!")
+except Exception as e:
+    print("Error creating tables:", e)
 
 @app.route('/')
 def index():

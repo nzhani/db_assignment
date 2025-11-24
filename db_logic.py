@@ -1,7 +1,13 @@
 from sqlalchemy import create_engine, text, MetaData, Table, Column, Integer, String, Text, ForeignKey, Date, Time, Float
 from sqlalchemy.exc import SQLAlchemyError
 
-DB_URL = "postgresql://postgres:Admin@localhost:5432/ass_db"
+import os
+
+DB_URL = os.getenv("DATABASE_URL", "postgresql://postgres:Admin@localhost:5432/ass_db")
+# Fix for Render's postgres:// usage which SQLAlchemy 1.4+ deprecated
+if DB_URL.startswith("postgres://"):
+    DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
+
 engine = create_engine(DB_URL)
 metadata = MetaData()
 
