@@ -26,7 +26,7 @@ user_table = Table(
 
 caregiver_table = Table(
     'caregiver', metadata,
-    Column('caregiver_user_id', Integer, ForeignKey('user.user_id'), primary_key=True),
+    Column('caregiver_user_id', Integer, ForeignKey('USER.user_id'), primary_key=True),
     Column('photo', String(255)),
     Column('gender', String(50)),
     Column('caregiving_type', String(100)),
@@ -35,7 +35,7 @@ caregiver_table = Table(
 
 member_table = Table(
     'member', metadata,
-    Column('member_user_id', Integer, ForeignKey('user.user_id'), primary_key=True),
+    Column('member_user_id', Integer, ForeignKey('USER.user_id'), primary_key=True),
     Column('house_rules', Text),
     Column('dependent_description', Text)
 )
