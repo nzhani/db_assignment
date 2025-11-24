@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit Member</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>House Rules</label>
+        <textarea name="house_rules" class="form-control">{{ member.house_rules }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label>Dependent Description</label>
+        <textarea name="dependent_description" class="form-control">{{ member.dependent_description }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+{% endblock %}

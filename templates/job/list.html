@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Jobs</h2>
+<a href="/job/create" class="btn btn-primary mb-3">Create New Job</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Member ID</th>
+            <th>Type</th>
+            <th>Requirements</th>
+            <th>Date Posted</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for j in jobs %}
+        <tr>
+            <td>{{ j.job_id }}</td>
+            <td>{{ j.member_user_id }}</td>
+            <td>{{ j.required_caregiving_type }}</td>
+            <td>{{ j.other_requirements }}</td>
+            <td>{{ j.date_posted }}</td>
+            <td>
+                <a href="/job/{{ j.job_id }}/edit" class="btn btn-sm btn-warning">Edit</a>
+                <form action="/job/{{ j.job_id }}/delete" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

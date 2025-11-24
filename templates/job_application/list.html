@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Job Applications</h2>
+<a href="/job_application/create" class="btn btn-primary mb-3">Create New Application</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Caregiver ID</th>
+            <th>Job ID</th>
+            <th>Date Applied</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in apps %}
+        <tr>
+            <td>{{ a.caregiver_user_id }}</td>
+            <td>{{ a.job_id }}</td>
+            <td>{{ a.date_applied }}</td>
+            <td>
+                <form action="/job_application/{{ a.caregiver_user_id }}/{{ a.job_id }}/delete" method="POST"
+                    style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

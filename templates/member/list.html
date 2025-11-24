@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Members</h2>
+<a href="/member/create" class="btn btn-primary mb-3">Create New Member</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>House Rules</th>
+            <th>Dependent Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in members %}
+        <tr>
+            <td>{{ m.member_user_id }}</td>
+            <td>{{ m.house_rules }}</td>
+            <td>{{ m.dependent_description }}</td>
+            <td>
+                <a href="/member/{{ m.member_user_id }}/edit" class="btn btn-sm btn-warning">Edit</a>
+                <form action="/member/{{ m.member_user_id }}/delete" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

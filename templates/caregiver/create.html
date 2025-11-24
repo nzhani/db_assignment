@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create Caregiver</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>User</label>
+        <select name="caregiver_user_id" class="form-control">
+            {% for u in users %}
+            <option value="{{ u.user_id }}">{{ u.given_name }} {{ u.surname }} ({{ u.email }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Photo URL</label>
+        <input type="text" name="photo" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Gender</label>
+        <input type="text" name="gender" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Caregiving Type</label>
+        <input type="text" name="caregiving_type" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Hourly Rate</label>
+        <input type="number" step="0.01" name="hourly_rate" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">Create</button>
+</form>
+{% endblock %}

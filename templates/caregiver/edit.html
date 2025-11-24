@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit Caregiver</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>Photo URL</label>
+        <input type="text" name="photo" class="form-control" value="{{ caregiver.photo }}">
+    </div>
+    <div class="mb-3">
+        <label>Gender</label>
+        <input type="text" name="gender" class="form-control" value="{{ caregiver.gender }}">
+    </div>
+    <div class="mb-3">
+        <label>Caregiving Type</label>
+        <input type="text" name="caregiving_type" class="form-control" value="{{ caregiver.caregiving_type }}">
+    </div>
+    <div class="mb-3">
+        <label>Hourly Rate</label>
+        <input type="number" step="0.01" name="hourly_rate" class="form-control" value="{{ caregiver.hourly_rate }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+{% endblock %}

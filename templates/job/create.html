@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create Job</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>Member</label>
+        <select name="member_user_id" class="form-control">
+            {% for m in members %}
+            <option value="{{ m.member_user_id }}">{{ m.member_user_id }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Required Caregiving Type</label>
+        <input type="text" name="required_caregiving_type" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Other Requirements</label>
+        <textarea name="other_requirements" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+        <label>Date Posted</label>
+        <input type="date" name="date_posted" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">Create</button>
+</form>
+{% endblock %}

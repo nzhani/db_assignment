@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create Address</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>Member</label>
+        <select name="member_user_id" class="form-control">
+            {% for m in members %}
+            <option value="{{ m.member_user_id }}">{{ m.member_user_id }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>House Number</label>
+        <input type="text" name="house_number" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Street</label>
+        <input type="text" name="street" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Town</label>
+        <input type="text" name="town" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">Create</button>
+</form>
+{% endblock %}

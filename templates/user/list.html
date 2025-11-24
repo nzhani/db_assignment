@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Users</h2>
+<a href="/user/create" class="btn btn-primary mb-3">Create New User</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.user_id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.given_name }} {{ user.surname }}</td>
+            <td>{{ user.city }}</td>
+            <td>{{ user.phone_number }}</td>
+            <td>
+                <a href="/user/{{ user.user_id }}/edit" class="btn btn-sm btn-warning">Edit</a>
+                <form action="/user/{{ user.user_id }}/delete" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

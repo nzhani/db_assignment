@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Addresses</h2>
+<a href="/address/create" class="btn btn-primary mb-3">Create New Address</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Member ID</th>
+            <th>House Number</th>
+            <th>Street</th>
+            <th>Town</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in addresses %}
+        <tr>
+            <td>{{ a.member_user_id }}</td>
+            <td>{{ a.house_number }}</td>
+            <td>{{ a.street }}</td>
+            <td>{{ a.town }}</td>
+            <td>
+                <a href="/address/{{ a.member_user_id }}/edit" class="btn btn-sm btn-warning">Edit</a>
+                <form action="/address/{{ a.member_user_id }}/delete" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
